@@ -1,5 +1,6 @@
 //tipos de operacoes em java script
 
+//Operadores
 let a = 10;
 let b = 3;
 
