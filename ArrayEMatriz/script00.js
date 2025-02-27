@@ -28,8 +28,12 @@ console.log(palavras);
 palavras.shift(); //remove o primeiro elemento
 console.log(palavras);
 
-//forEach - repetição em um vetor
+//percorrer um array (loop)
+for(let i = 0; i<numeros.length;i++){
+    console.log("numero = ["+i+"]"+numeros[i])
+};
 
+//forEach - repetição em um vetor
 palavras.forEach(palavras => {
     console.log(palavras);
 });
@@ -42,3 +46,4 @@ console.log(palavras);
 //manipulação de arrays
 let numerosDobro = numeros.map(x => x*10);
 console.log(numerosDobro);
+
