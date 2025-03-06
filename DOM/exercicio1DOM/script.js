@@ -4,8 +4,13 @@ function alterarTexto() {
 }
 
 function mudarCor() {
-    document.body.style.backgroundColor = 'green'; 
+    document.body.style.backgroundColor = 'blue'; 
 }
 
+function Adcrev() {
+    titulo.classList.add("descricao");
+     let descricao = document.querySelector(".descricao");
+     descricao.style.color = "red";
+}
 
 
