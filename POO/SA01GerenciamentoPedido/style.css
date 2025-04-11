@@ -1,0 +1,42 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 20px;
+    background-color: aliceblue;
+}
+
+h1{
+    text-align: center;
+}
+
+section{
+    background-color: white;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+button{
+    background-color: lightgreen;
+    color: white;
+    border: none;
+    padding: 8px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: green;
+}
+
+ul{
+    list-style: none;
+    padding: 0;
+}
+
+li{
+    background: #ccc;
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 3px;
+}
