@@ -1,53 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Pedidos -POO</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <h1>Sistemas de Pedidos</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Pedidos - POO</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>Sistema de Pedidos</h1>
 
     <!-- Cadastro de Cliente -->
     <section>
-        <h2>Cadastro de Clientes</h2>
-        <input type="text" id="clienteNome" placeholder="Nome do Cliente">
-        <button onclick="sistema.cadrastroCliente()">Cadastras Cliente</button>
-        <ul id="listaClientes"></ul>
+      <h2>Cadastro de Clientes</h2>
+      <input type="text" id="clienteNome" placeholder="Nome do Cliente" />
+      <button onclick="sistema.cadastrarCliente()">Cadastrar Cliente</button>
+      <ul id="listaClientes"></ul>
     </section>
 
-    <!-- Cadastro de Produto -->
+    <!-- Cadastro de Produto  -->
     <section>
-        <h2>Cadastro de Produtos</h2>
-        <input type="text" id="produtoNome" placeholder="Nome do Produto">
-        <input type="number" id="produtoPreco" placeholder="Preço do Produto">
-        <button onclick="sistema.cadastroProduto()">Cadastras Produto</button>
-        <ul id="listaProdutos"></ul>
+      <h2>Cadastro de Produtos</h2>
+      <input type="text" id="produtoNome" placeholder="Nome do Produto" />
+      <input type="number" id="produtoPreco" placeholder="Preço do Produto" />
+      <button onclick="sistema.cadastrarProduto()">Cadastrar Produto</button>
+      <ul id="listaProdutos"></ul>
     </section>
 
-    <!-- Criar Pedido -->
+    <!-- Criar Pedido  -->
     <section>
-        <h2>Criar Pedidos</h2>
-        <h3>Cliente</h3>
-        <select id="selectCliente">
-            <option value="">Selecione um Cliente</option>
-        </select>
-        <h3>Produts</h3>
-        <div id="produtosDisponiveis"></div>
+      <h2>Criar Pedido</h2>
 
-        <h3>Desconto (%)</h3>
-        <input type="number" id="desconto" value="0">
-        <button onclick="sistema.finalizarPedido()">finalizarPedido</button>
+      <h3>Cliente</h3>
+      <select id="selectCliente">
+        <option value="">Selecione um Cliente</option>
+      </select>
 
-    </select>
+      <h3>Produtos</h3>
+      <div id="produtosDisponiveis"></div>
 
-    <!-- Pedidos realizados -->
+      <h3>Desconto (%)</h3>
+      <input type="number" id="desconto" value="0" />
+      <button onclick="sistema.finalizarPedido()">Finalizar Pedido</button>
+      
+    </section>
+
+    <!-- Pedidos Realizados  -->
     <section>
         <h2>Pedidos Realizados</h2>
         <ul id="listaPedidos"></ul>
     </section>
-        
-</body>
-<script src="script.js"></script>
+
+  </body>
+  <script src="script.js"></script>
 </html>
