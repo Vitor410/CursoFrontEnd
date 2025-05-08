@@ -1,0 +1,21 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+input{
+    border: none;
+    background: #ddd;
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+textarea{
+    border: none;
+    background: #ddd;
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 5px;
+}

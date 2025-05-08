@@ -1,0 +1,66 @@
+/* Estilo geral do container */
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Títulos */
+  .container h2, .container h3 {
+    text-align: center;
+    color: #333;
+  }
+  
+  /* Estilo dos labels e inputs */
+  form label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: 600;
+    color: #444;
+  }
+  
+  form input, form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border 0.3s;
+  }
+  
+  form input:focus, form select:focus {
+    border-color: #007BFF;
+    outline: none;
+  }
+  
+  /* Visualização em tempo real */
+  .preview {
+    background-color: #fff;
+    padding: 15px;
+    border: 1px dashed #000000;
+    border-radius: 6px;
+    margin-top: 20px;
+  }
+  
+  .preview p {
+    margin: 8px 0;
+    color: #ff0000;
+  }
+  
+  hr {
+    margin: 20px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+  }
+  
+  /* Responsividade */
+  @media (max-width: 600px) {
+    .container {
+      padding: 20px;
+    }
+  }
+  
