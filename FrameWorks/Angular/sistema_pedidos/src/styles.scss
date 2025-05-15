@@ -1,0 +1,57 @@
+/* You can add global styles to this file, and also import other style files */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: aliceblue;
+    color: #333;
+    padding: 20px;
+}
+
+//container
+.container{
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba($color: #000000, $alpha: 0.2);
+}
+
+h1, h2, h3 {
+    color: green;
+    margin-bottom: 12px;
+}
+
+button{
+    padding: 8px 16px;
+    background-color: rgb(24, 80, 235);
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover{
+        background-color: blue;
+    }
+
+}
+
+input, select{
+   padding: 8px;
+   margin: 8px;
+   width: 100%;
+    border: 1px solid #333;
+    border-radius: 6px;
+    font-size: 16px;    
+}
+
+label{
+    font-weight: bold;
+    display: block;
+    margin-top: 12px;
+}
