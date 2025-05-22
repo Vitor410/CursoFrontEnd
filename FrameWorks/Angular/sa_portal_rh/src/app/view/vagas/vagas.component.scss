@@ -1,0 +1,53 @@
+.lista-vagas{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .card{
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    overflow: hidden;
+    transition:  transform 0.3s ease, box-shadow 0.3 ease;
+    width: 18rem;
+    margin: 10px;
+
+    &:hover{
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+    img{
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 1px solid #aaa;
+    }
+    .card-body{
+      padding: 1rem;
+
+      h5.card-title{
+        color: #333;
+        font-size: 1.5rem;
+        line-height: 1.5;
+        margin-bottom: 0.5rem;
+      }
+
+      p.card-text{
+        color: #555;
+        font-size: 0.8rem;
+        line-height: 1.5;
+        margin-bottom: 0.5rem;
+      }
+      p.card-text:last-child{
+        margin-bottom: 0; //remove a margem do ultima linha
+      }
+    }
+  }
+}
+.rodape{
+  height: 10vh;
+}
