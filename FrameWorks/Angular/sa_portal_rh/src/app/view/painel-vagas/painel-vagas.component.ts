@@ -5,15 +5,15 @@ import { VagasService } from 'src/app/services/vagas.service';
 @Component({
   selector: 'app-painel-vagas',
   templateUrl: './painel-vagas.component.html',
-  styleUrls: ['./painel-vagas.component.scss']
+  styleUrls: ['./painel-vagas.component.scss'],
 })
 export class PainelVagasComponent implements OnInit {
-  public vaga:Vaga = new Vaga(0,"","","",0); //rastrear os dados no formulário por interpolação
+  public vaga: Vaga = new Vaga(0, '', '', '', 0); //rastrear os dados no formulário por interpolação
 
   public vagas: Vaga[] = [];
   //armazenar os dados do API -json
 
-  constructor(private _vagasService: VagasService){} // aplicando o service no Construtor
+  constructor(private _vagasService: VagasService) {} // aplicando o service no Construtor
 
   ngOnInit(): void {
     this.listarVagas();
@@ -34,11 +34,44 @@ export class PainelVagasComponent implements OnInit {
       });
     });
   }
-  //Listar unica vaga
 
-  //cadastrar vaga
+  //Listar unica Vaga
+  listarVagaUnica(vaga:Vaga){
+    //Função para listar vaga unica, para edição no formulário
+    this.vaga = vaga;
+    //A vaga clicada é mostrada no formulário, =>
+  }
 
-  //atualizar vaga 
+  //cadastrar Vaga
+  cadastrar(){
+    this._vagasService.cadastrarVaga(this.vaga).subscribe(
+      ()=>{
+        this.vaga = new Vaga(0,"","","",0);//limpara os campos do formulário
+        this.listarVagas();
+        alert("Vaga Cadastrada com Sucesso");
+      }, (err) => { console.error("Exception: ",err);}
+    );
+  }
 
-  //deletar vagas 
+  // atualizar Vagas
+  atualizar(id:any){
+    this._vagasService.atualizarVaga(id, this.vaga).subscribe(
+      ()=>{
+        this.vaga = new Vaga(0,"","","",0);
+        this.listarVagas();
+        alert("Vaga Atualizada com Sucesso!!!");
+      }, (err) => {console.error("Exception: ",err);}
+    );
+  }
+
+  //deletar Vagas
+  excluir(id:any){
+    this._vagasService.removerVaga(id).subscribe(
+      ()=>{
+        this.listarVagas();
+        alert("Vaga Deletada com Sucesso!!!");
+      }, (err) => {console.error("Exception: ",err);}
+    );
+  }
+
 }

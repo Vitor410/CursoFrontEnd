@@ -1,0 +1,123 @@
+//estilização do painel de vagas
+// declarar variaveis em SCSS
+$primaria: #007bff;
+$secundaria: #999;
+$sucesso: #28a745;
+$perigo: #dc3545;
+$alerta: #ffff00;
+
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 1rem;
+  }
+
+  input {
+    width: calc(100% - 20px);
+    padding: 1rem 10px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-size: 1rem;
+
+    &:focus {
+      outline: none;
+      border-color: $primaria;
+      box-shadow: 0, 0, 0, rgba(0, 0, 0, 0.25);
+    }
+  }
+  button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    margin-right: 0.75rem;
+
+    &[type="button"]:nth-of-type(1) {
+      background-color: $secundaria;
+      &:hover {
+        background-color: darken($color: $sucesso, $amount: 10%);
+      }
+    }
+    &[type="button"]:nth-of-type(2) {
+      background-color: $secundaria;
+      &:hover {
+        background-color: darken($color: $alerta, $amount: 10%);
+      }
+    }
+    &[type="button"]:nth-of-type(3) {
+      background-color: $secundaria;
+      &:hover {
+        background-color: darken($color: $perigo, $amount: 10%);
+      }
+    }
+  }
+} //fim da estilização do Formulário
+
+// estilização da tabela
+
+.lista-vagas {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1 rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+  }
+
+  td,
+  th {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #aaa;
+    vertical-align: middle;
+  }
+  thead {
+    background-color: #999;
+    th {
+      color: #333;
+      font-weight: bold;
+    }
+  }
+  tbody {
+    tr {
+      &:hover {
+        background-color: lighten($color: #999, $amount: 5%);
+      }
+    }
+
+    .btn-listar {
+      border: none;
+      background-color: $secundaria;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: darken($color: $alerta, $amount: 10%);
+      }
+    }
+  }
+}
+
+.rodape {
+  height: 10vh;
+}
