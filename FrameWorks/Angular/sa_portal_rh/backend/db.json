@@ -22,15 +22,24 @@
       "salario": 10000
     },
     {
-      "id": 4,
+      "id": "4",
       "nome": "Engenheiro de Nuvem",
       "foto": "foto4.jpg",
       "descricao": "Trabalhar com Nuvem AWS",
       "salario": 8000
     }
   ],
- "curriculo":[
+  "curriculo": [
     {
+      "cpf": "12345678901",
+      "nome": "João Silva",
+      "email": "joãosilva@gmail.com",
+      "telefone": "11987654321",
+      "experiencia": "2 anos como desenvolvedor front-endb",
+      "id": "ee63"
+    },
+    {
+      "id": "7360",
       "cpf": "12345678901",
       "nome": "João Silva",
       "email": "joãosilva@gmail.com",
@@ -38,5 +47,4 @@
       "experiencia": "2 anos como desenvolvedor front-end"
     }
   ]
-
 }

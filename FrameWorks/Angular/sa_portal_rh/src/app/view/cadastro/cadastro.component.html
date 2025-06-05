@@ -1,0 +1,19 @@
+<h2>Cadastro de Currículo</h2>
+<form>
+  <label>CPF</label>
+  <input type="text" name="cpf" [(ngModel)]="curriculo.cpf"> <br>
+
+  <label>Nome</label>
+  <input type="text" name="nome" [(ngModel)]="curriculo.nome"> <br>
+
+  <label>Email</label>
+  <input type="email" name="email" [(ngModel)]="curriculo.email"> <br>
+
+  <label>Telefone</label>
+  <input type="text" name="telefone" [(ngModel)]="curriculo.telefone"> <br>
+
+  <label>Experiência</label>
+  <input type="text" name="experiencia" [(ngModel)]="curriculo.experiencia"> <br>
+
+  <button type="button" (click)="cadastrar()">Cadastrar Currículo</button>
+</form>

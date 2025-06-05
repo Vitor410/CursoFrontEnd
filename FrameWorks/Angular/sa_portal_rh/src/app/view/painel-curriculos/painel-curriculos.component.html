@@ -1,5 +1,13 @@
 <h2>Cadastrar Currículo</h2>
-<form>
+
+<button type="button" (click)="mostrarFormulario = !mostrarFormulario" style="margin-bottom: 20px;">
+  {{ mostrarFormulario ? 'Fechar Cadastro' : 'Cadastrar Novo Currículo' }}
+</button>
+
+<form *ngIf="mostrarFormulario">
+  <div *ngIf="alertaCampos" style="color: #fff; background: #c62828; padding: 8px 12px; border-radius: 4px; margin-bottom: 10px;">
+    Por favor, preencha todos os campos antes de continuar.
+  </div>
   <label>CPF</label>
   <input type="text" name="cpf" [(ngModel)]="curriculo.cpf"> <br>
 
@@ -16,8 +24,8 @@
   <input type="text" name="experiencia" [(ngModel)]="curriculo.experiencia"> <br>
 
   <button type="button" (click)="cadastrar()">Cadastrar Currículo</button>
-  <button type="button" (click)="atualizar(curriculo.cpf.toString())">Atualizar Currículo</button>
-  <button type="button" (click)="excluir(curriculo.cpf.toString())">Excluir Currículo</button>
+  <button type="button" (click)="atualizar(curriculo.cpf)">Atualizar Currículo</button>
+  <button type="button" (click)="excluir(curriculo.cpf)">Excluir Currículo</button>
 </form>
 
 <!-- tabela com os currículos já cadastrados -->

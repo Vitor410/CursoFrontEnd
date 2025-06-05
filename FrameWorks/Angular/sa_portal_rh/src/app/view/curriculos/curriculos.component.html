@@ -4,7 +4,24 @@
     <div class="col-md-12">
       <h1>Currículos</h1>
       <p>Bem-vindo à página de currículos!</p>
-      <p>Esta página está em construção.</p>
-      <p>Em breve, você poderá visualizar e gerenciar seus currículos aqui.</p>
+
+      <a href="cadastro" class="btn btn-primary mt-3">Cadastrar Currículo</a>
+
+      <div *ngFor="let curriculo of curriculos">
+        <div class="card">
+
+          <div class="card-body">
+            <h5 class="card-title">CPF: {{curriculo.cpf}}</h5>
+            <h5 class="card-title">Nome: {{curriculo.nome}}</h5>
+            <p class="card-text">Email: {{curriculo.email}}</p>
+            <p class="card-text">Telefone: R$ {{curriculo.telefone}}</p>
+            <p class="card-text">Experiência: R$ {{curriculo.experiencia}}</p>
+          </div>
+        </div>
+
+      </div>
+
+      
     </div>
   </div>
+</div>

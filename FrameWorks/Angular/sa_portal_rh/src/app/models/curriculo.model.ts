@@ -1,32 +1,32 @@
 export class Curriculo {
     
     constructor(
-        public cpf: number,
+        public cpf: string,
         public nome: string,
         public email: string,
-        public telefone: number,
+        public telefone: string,
         public experiencia: string,
     ) {}
     
     
     toMap(): { [key: string]: any } {
         return {
-        id: this.cpf,
-        nome: this.nome,
-        email: this.email,
-        telefone: this.telefone,
-        experiencia: this.experiencia,
+            cpf: this.cpf,
+            nome: this.nome,
+            email: this.email,
+            telefone: this.telefone,
+            experiencia: this.experiencia,
         };
     }
     
     
     static fromMap(map: any): Curriculo {
         return new Curriculo(
-        map.cpf,
-        map.nome,
-        map.email,
-        map.telefone,
-        map.experiencia,
+            map.cpf,
+            map.nome,
+            map.email,
+            map.telefone,
+            map.experiencia,
         );
     }       
 }
