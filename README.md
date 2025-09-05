@@ -1,9 +1,30 @@
-## Curso FrontEnd
-- HtmlCss Revivel
-- Introdução JavaScript
-    - Tipos de Dados
-    - Operadores (Aritméticos, Relacionais, Lógicos)
-    - Condicionais, Loops, Funções
+### Diagrama de Fluxo de Arquitetura de Projeto
+```mermaid
+graph TD
+    subgraph Cliente["Navegador"]
+        UI
+    end
 
-    ## Criando um Diagrama com Mermaid
+    subgraph Front["React"]
+        FrontEnd
+    end
 
+    subgraph Back["API"]
+        BackEnd
+    end
+
+    subgraph Banco["MongoDB"]
+        BD
+    end
+
+    %% FLUXO
+
+    UI-->FrontEnd
+    FrontEnd-->BackEnd
+    BackEnd-->BD
+    BD-->BackEnd
+    BackEnd-->FrontEnd
+    FrontEnd-->UI
+
+
+```
