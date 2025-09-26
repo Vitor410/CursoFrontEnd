@@ -1,77 +1,29 @@
-import mongoose, { Model, Schema } from "mongoose";
+//classe para equipamentos
 
-export interface Iequipamento extends Document{
-    nome: string;
+import mongoose, { Document, Model, Schema } from "mongoose";
+
+// atributos da classe
+export interface IEquipamento extends Document{
+    _id: string;
     modelo: string;
-    numeroserie : string;
+    marca: string;
     localizacao: string;
+    numSerie: string;
     status: string;
 }
 
-const EquipamentoSchema: Schema<Iequipamento> = new mongoose.Schema({
-    nome:{
-        type:String,
-        required:[true, "O Nome é Obrigatorio"],
-        trim: true,
-        maxlength: [50, "máximo de 50 char"]
-    },
-    modelo:{
-        type:String,
-        required:[true, "O Modelo é Obrigatorio"],
-        trim: true,
-        maxlength: [50, "máximo de 50 char"]
-    },
-    numeroserie:{
-        type:String,
-        required:[true, "O Numero de serie é Obrigatorio"],
-        trim: true,
-        maxlength: [50, "máximo de 50 char"]
-    },
-    localizacao:{
-        type:String,
-        required:[true, "A localização é Obrigatoria"],
-        trim: true,
-        maxlength: [50, "máximo de 50 char"]
-    },
-    status:{
-        type:String,
-        required:[true, "O Status do equipamento é Obrigatorio"],
-        trim: true,
-        maxlength: [50, "máximo de 50 char"]
-    },
-}); 
+//Schema da Classe ( Construtor)
+const EquipamentoSchema:Schema<IEquipamento> = new Schema({
+    modelo:{type:String, required:true},
+    marca:{type:String, required:true},
+    localizacao:{type:String, required:true},
+    numSerie:{type:String, required:true, unique: true},
+    status:{type: String, enum: ["ativo","inativo"], default: "ativo"}
+});
 
+// fromMap toMap
 
-const Equipameto: Model<Iequipamento> = mongoose.models.Equipamento || mongoose.model<Iequipamento>("Equipamento",EquipamentoSchema);
+const Equipamento: Model<IEquipamento> = mongoose.models.Equipamento
+|| mongoose.model<IEquipamento>("Equipamento",EquipamentoSchema);
 
-//componente reutilizavel
-export default Equipameto;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//nome modelo numeroserie localizacao status
-
-
-
-
-
-
+export default Equipamento;
