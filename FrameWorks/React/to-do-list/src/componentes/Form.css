@@ -1,0 +1,23 @@
+form{
+    display: flex;
+    justify-content: center;
+    margin-bottom: auto;
+}
+
+input{
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #aaa;
+    width: 300px;
+}
+
+.btnEnviar{
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    background-color: green;
+    color: #ddd;
+    border-radius: 5px;
+    margin-left: 15px;
+    cursor: pointer;
+}
