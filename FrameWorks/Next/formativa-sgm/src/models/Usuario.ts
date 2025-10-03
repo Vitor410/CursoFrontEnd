@@ -4,14 +4,15 @@ import bcrypt from "bcrypt";
 
 export interface Iusuario extends Document {
     _id:string,
-    name: string,
+    username: string,
     email: string,
     senha?: string;
+    tipo: string
     compareSenha(cuserSenha:string): Promise<boolean>;
 }
 
 const usuarioSchema : Schema<Iusuario> = new mongoose.Schema({
-    name:{
+    username:{
         type:String,
         required:[true, "O Nome é Obrigatorio"],
         trim: true,
@@ -30,7 +31,8 @@ const usuarioSchema : Schema<Iusuario> = new mongoose.Schema({
         trim: true, 
         maxlength: [30, "máximo de 30 char"],
         select:false
-    }
+    },
+    tipo:{type: String, enum:["tecnico","gerente","admin"],required:true}
 });
 
 //Middleware para hashear a senha

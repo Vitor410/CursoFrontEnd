@@ -1,40 +1,38 @@
-import connectMongo from '@/services/mongodb';
-import Usuario, { Iusuario } from '../models/Usuario';
 
-// Exemplo de dados em memória
-let usuarios: Iusuario[] = [];
+import connectMongo from "@/services/mongodb";
+import Usuario, { Iusuario } from "../models/Usuario";
 
-export const UsuarioController = {
-  listar: (): Iusuario[] => {
-    return usuarios;
-  },
+//listar todos os Usuários
+export const getUsuarios = async () => {
+  await connectMongo(); //estabelece conexão
+  const usuarios = await Usuario.find({}); //lista todos os usuários da colecção
+  return usuarios;
+};
+//listar um usuário
+export const getUsuarioById = async (id: string) => {
+  await connectMongo();
+  const usuario = await Usuario.findById(id);
+  return usuario;
+};
+//criar usuário
+export const createUsuario = async (data: Partial<Iusuario>) => {
+  await connectMongo();
+  const novoUsuario = new Usuario(data);
+  const novoUsuarioId = novoUsuario.save();
+  return novoUsuarioId;
+};
 
-  buscarPorId: (id: string): Iusuario | undefined => {
-    return usuarios.find(u => u.id === id);
-  },
+//atualziar dados do Usuário
+export const updateUsuario = async (id: string, data: Partial<Iusuario>) => {
+  await connectMongo();
+  const usuario = await Usuario.findByIdAndUpdate(id, data, { new: true });
+  return usuario;
+};
 
-  criar: (usuario: Iusuario): Iusuario => {
-    usuarios.push(usuario);
-    return usuario;
-  },
-
-  atualizar: (id: string, dados: Partial<Iusuario>): Iusuario | undefined => {
-    const usuario = usuarios.find(u => u.id === id);
-    if (usuario) {
-      Object.assign(usuario, dados);
-      return usuario;
-    }
-    return undefined;
-  },
-
-  remover: (id: string): boolean => {
-    const index = usuarios.findIndex(u => u.id === id);
-    if (index !== -1) {
-      usuarios.splice(index, 1);
-      return true;
-    }
-    return false;
-  }
+//deletar usuário
+export const deleteUsuario = async (id: string) => {
+  await connectMongo();
+  await Usuario.findByIdAndDelete(id);
 };
 
 //métodos de autenticação de usuário (login) ( senha é passada criptografada)
@@ -43,9 +41,11 @@ export const autenticaUsuario = async (username: string, password: string) => {
     //busca o usuário pelo username e a senha ainda criptografada
     const usuario = await Usuario.find({username}).select("+password");
     // usuário não encontrado
-    if (!usuario || usuario.length === 0) return null;
-    //comparar a senha digitada com a senha do banco
-    const senhaSecreta = await usuario[0].compareSenha(password);
-    if (!senhaSecreta) return null; //senha incorreta
-    return usuario[0]; // se deu certo retorna o usuário sem a senha 
-}
+    if(!usuario || usuario.length === 0) return null;
+    //comparar a senha digita com a senha do banco
+    const senhaSecreta =  await usuario[0].compareSenha(password);
+    if(!senhaSecreta) return null; //senha incorreta
+    // se deu certo retrona o usuário
+    return usuario[0];
+};
+

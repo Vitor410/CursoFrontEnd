@@ -1,39 +1,33 @@
-export interface Ordem {
-  id: string;
-  descricao: string;
-  usuarioId: string;
-  equipamentoId: string;
-  status: string;
-  criadoEm?: Date;
-}
 
-let ordens: Ordem[] = [];
+import connectMongo from "@/services/mongodb";
+import OrdemServico, { Iordem } from "../models/Ordem";
 
-export const OrdemController = {
-  listar: (): Ordem[] => ordens,
+export const getOrdensServico = async () => {
+  await connectMongo();
+  const ordens = await OrdemServico.find({});
+  return ordens;
+};
 
-  buscarPorId: (id: string): Ordem | undefined => ordens.find(o => o.id === id),
+export const getOrdemServicoById = async (id: string) => {
+  await connectMongo();
+  const ordem = await OrdemServico.findById(id);
+  return ordem;
+};
 
-  criar: (ordem: Ordem): Ordem => {
-    ordens.push(ordem);
-    return ordem;
-  },
+export const createOrdemServico = async (data: Partial<Iordem>) => {
+  await connectMongo();
+  const novaOrdem = new OrdemServico(data);
+  await novaOrdem.save();
+  return novaOrdem;
+};
 
-  atualizar: (id: string, dados: Partial<Ordem>): Ordem | undefined => {
-    const ordem = ordens.find(o => o.id === id);
-    if (ordem) {
-      Object.assign(ordem, dados);
-      return ordem;
-    }
-    return undefined;
-  },
+export const updateOrdemServico = async (id: string, data: Partial<Iordem>) => {
+  await connectMongo();
+  const ordem = await OrdemServico.findByIdAndUpdate(id, data, { new: true });
+  return ordem;
+};
 
-  remover: (id: string): boolean => {
-    const index = ordens.findIndex(o => o.id === id);
-    if (index !== -1) {
-      ordens.splice(index, 1);
-      return true;
-    }
-    return false;
-  }
+export const deleteOrdemServico = async (id: string) => {
+  await connectMongo();
+  await OrdemServico.findByIdAndDelete(id);
 };
