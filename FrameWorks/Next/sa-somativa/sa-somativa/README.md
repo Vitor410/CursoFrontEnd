@@ -94,36 +94,34 @@ O Usuário (Recepcionista) é o responsável por agendar as consultas no sistema
 Mostra as interações dos usuários (Recepcionista e Médico) com o sistema.
 
 ```mermaid
-
 graph TD
-    subgraph Sistema de Agendamento de Consultas
-        uc1("Fazer Login")
-        uc2("Gerenciar Pacientes (CRUD)")
-        uc3("Gerenciar Médicos (CRUD)")
-        uc4("Agendar Consulta")
-        uc5("Cancelar/Reagendar Consulta")
-        uc6("Visualizar Agenda")
-    end
+  subgraph Sistema_de_Agendamento_de_Consultas
+    uc1["Fazer Login"]
+    uc2["Gerenciar Pacientes (CRUD)"]
+    uc3["Gerenciar Médicos (CRUD)"]
+    uc4["Agendar Consulta"]
+    uc5["Cancelar/Reagendar Consulta"]
+    uc6["Visualizar Agenda"]
+  end
 
-    actor "Recepcionista" as Recepcionista
-    actor "Médico" as Medico
+  Recepcionista(("Recepcionista"))
+  Medico(("Médico"))
 
-    Recepcionista -- uc1
-    Recepcionista -- uc2
-    Recepcionista -- uc3
-    Recepcionista -- uc4
-    Recepcionista -- uc5
-    Recepcionista -- uc6
+  Recepcionista --> uc1
+  Recepcionista --> uc2
+  Recepcionista --> uc3
+  Recepcionista --> uc4
+  Recepcionista --> uc5
+  Recepcionista --> uc6
 
-    Medico -- uc1
-    Medico -- uc6
+  Medico --> uc1
+  Medico --> uc6
 
-    uc4 --|> uc1 : include
-    uc5 --|> uc1 : include
-    uc2 --|> uc1 : include
-    uc3 --|> uc1 : include
-    uc6 --|> uc1 : include
-```
+  uc4 -.-> uc1
+  uc5 -.-> uc1
+  uc2 -.-> uc1
+  uc3 -.-> uc1
+  uc6 -.-> uc1
 
 ###  Explicação:
 Recepcionista: Pode cadastrar médicos e pacientes, criar e gerenciar consultas, e visualizar a agenda completa.
