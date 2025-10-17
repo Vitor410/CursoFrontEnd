@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { Appointment, Patient, Doctor, AppointmentStatus } from '../types';
+import { useAuth } from '../context/AuthContext';
 
 export default function AppointmentsPage() {
+  const { user } = useAuth();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [patients, setPatients] = useState<Patient[]>([]);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -18,15 +20,27 @@ export default function AppointmentsPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchAppointments();
-    fetchPatients();
-    fetchDoctors();
-  }, []);
+    if (user) {
+      fetchAppointments();
+      if (user.role === 'admin') {
+        fetchPatients();
+        fetchDoctors();
+      }
+    }
+  }, [user]);
 
   const fetchAppointments = async () => {
-    const res = await fetch('/api/appointments');
-    const data = await res.json();
-    setAppointments(data);
+    try {
+      const res = await fetch('/api/appointments');
+      if (!res.ok) {
+        setError('Erro ao buscar consultas');
+        return;
+      }
+      const data = await res.json();
+      setAppointments(data);
+    } catch (err) {
+      setError('Erro ao buscar consultas');
+    }
   };
 
   const fetchPatients = async () => {
@@ -95,91 +109,107 @@ export default function AppointmentsPage() {
   const getPatientName = (id: string) => patients.find(p => p.id === id)?.name || 'Desconhecido';
   const getDoctorName = (id: string) => doctors.find(d => d.id === id)?.name || 'Desconhecido';
 
+  if (!user) {
+    return (
+      <div className="p-8">
+        <div className="text-center">Por favor, faça login para acessar esta página.</div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Gerenciar Consultas</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        {user.role === 'admin' ? 'Gerenciar Consultas' : 'Minhas Consultas'}
+      </h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      <form onSubmit={handleSubmit} className="mb-8">
-        <select
-          value={form.patientId}
-          onChange={(e) => setForm({ ...form, patientId: e.target.value })}
-          required
-          className="border p-2 mr-2"
-        >
-          <option value="">Selecione Paciente</option>
-          {patients.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.name}
-            </option>
-          ))}
-        </select>
-        <select
-          value={form.doctorId}
-          onChange={(e) => setForm({ ...form, doctorId: e.target.value })}
-          required
-          className="border p-2 mr-2"
-        >
-          <option value="">Selecione Médico</option>
-          {doctors.map((d) => (
-            <option key={d.id} value={d.id}>
-              {d.name}
-            </option>
-          ))}
-        </select>
-        <input
-          type="date"
-          value={form.date}
-          onChange={(e) => setForm({ ...form, date: e.target.value })}
-          required
-          className="border p-2 mr-2"
-        />
-        <input
-          type="time"
-          value={form.time}
-          onChange={(e) => setForm({ ...form, time: e.target.value })}
-          required
-          className="border p-2 mr-2"
-        />
-        <select
-          value={form.status}
-          onChange={(e) => setForm({ ...form, status: e.target.value as AppointmentStatus })}
-          className="border p-2 mr-2"
-        >
-          <option value="Agendada">Agendada</option>
-          <option value="Confirmada">Confirmada</option>
-          <option value="Realizada">Realizada</option>
-          <option value="Cancelada">Cancelada</option>
-        </select>
-        <button type="submit" className="bg-blue-500 text-white p-2">
-          {editing ? 'Atualizar' : 'Adicionar'}
-        </button>
-        {editing && (
-          <button
-            type="button"
-            onClick={() => {
-              setEditing(null);
-              setForm({ patientId: '', doctorId: '', date: '', time: '', status: 'Agendada' });
-            }}
-            className="bg-gray-500 text-white p-2 ml-2"
+
+      {user.role === 'admin' && (
+        <form onSubmit={handleSubmit} className="mb-8">
+          <select
+            value={form.patientId}
+            onChange={(e) => setForm({ ...form, patientId: e.target.value })}
+            required
+            className="border p-2 mr-2"
           >
-            Cancelar
+            <option value="">Selecione Paciente</option>
+            {patients.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+          <select
+            value={form.doctorId}
+            onChange={(e) => setForm({ ...form, doctorId: e.target.value })}
+            required
+            className="border p-2 mr-2"
+          >
+            <option value="">Selecione Médico</option>
+            {doctors.map((d) => (
+              <option key={d.id} value={d.id}>
+                {d.name}
+              </option>
+            ))}
+          </select>
+          <input
+            type="date"
+            value={form.date}
+            onChange={(e) => setForm({ ...form, date: e.target.value })}
+            required
+            className="border p-2 mr-2"
+          />
+          <input
+            type="time"
+            value={form.time}
+            onChange={(e) => setForm({ ...form, time: e.target.value })}
+            required
+            className="border p-2 mr-2"
+          />
+          <select
+            value={form.status}
+            onChange={(e) => setForm({ ...form, status: e.target.value as AppointmentStatus })}
+            className="border p-2 mr-2"
+          >
+            <option value="Agendada">Agendada</option>
+            <option value="Confirmada">Confirmada</option>
+            <option value="Realizada">Realizada</option>
+            <option value="Cancelada">Cancelada</option>
+          </select>
+          <button type="submit" className="bg-blue-500 text-white p-2">
+            {editing ? 'Atualizar' : 'Adicionar'}
           </button>
-        )}
-      </form>
+          {editing && (
+            <button
+              type="button"
+              onClick={() => {
+                setEditing(null);
+                setForm({ patientId: '', doctorId: '', date: '', time: '', status: 'Agendada' });
+              }}
+              className="bg-gray-500 text-white p-2 ml-2"
+            >
+              Cancelar
+            </button>
+          )}
+        </form>
+      )}
+
       <ul>
         {appointments.map((appointment) => (
-          <li key={appointment.id} className="flex justify-between items-center mb-2">
+          <li key={appointment.id} className="flex justify-between items-center mb-2 p-4 bg-gray-100 rounded">
             <span>
               {getPatientName(appointment.patientId)} com {getDoctorName(appointment.doctorId)} em {appointment.date} às {appointment.time} - {appointment.status}
             </span>
-            <div>
-              <button onClick={() => handleEdit(appointment)} className="bg-yellow-500 text-white p-1 mr-2">
-                Editar
-              </button>
-              <button onClick={() => handleDelete(appointment.id)} className="bg-red-500 text-white p-1">
-                Deletar
-              </button>
-            </div>
+            {user.role === 'admin' && (
+              <div>
+                <button onClick={() => handleEdit(appointment)} className="bg-yellow-500 text-white p-1 mr-2">
+                  Editar
+                </button>
+                <button onClick={() => handleDelete(appointment.id)} className="bg-red-500 text-white p-1">
+                  Deletar
+                </button>
+              </div>
+            )}
           </li>
         ))}
       </ul>
