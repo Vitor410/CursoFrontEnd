@@ -46,7 +46,7 @@ export default function AppointmentsPage() {
   const fetchPatients = async () => {
     const res = await fetch('/api/patients');
     const data = await res.json();
-    setPatients(data.map((p: any) => ({ ...p, id: p._id })));
+    setPatients(Array.isArray(data) ? data.map((p: any) => ({ ...p, id: p._id })) : []);
   };
 
   const fetchDoctors = async () => {
@@ -124,127 +124,153 @@ export default function AppointmentsPage() {
   }
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">
-        {user.role === 'admin' ? 'Gerenciar Consultas' : 'Minhas Consultas'}
-      </h1>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+    <div className="min-h-screen p-8">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+          {user.role === 'admin' ? '📅 Gerenciar Consultas' : '📅 Minhas Consultas'}
+        </h1>
+        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
-      {user.role === 'admin' && (
-        <form onSubmit={handleSubmit} className="mb-8">
-          <select
-            value={form.patientId}
-            onChange={(e) => setForm({ ...form, patientId: e.target.value })}
-            required
-            className="border p-2 mr-2"
-          >
-            <option value="">Selecione Paciente</option>
-            {patients.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-          <select
-            value={form.doctorId}
-            onChange={(e) => setForm({ ...form, doctorId: e.target.value })}
-            required
-            className="border p-2 mr-2"
-          >
-            <option value="">Selecione Médico</option>
-            {doctors.map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.name}
-              </option>
-            ))}
-          </select>
-          <input
-            type="date"
-            value={form.date}
-            onChange={(e) => setForm({ ...form, date: e.target.value })}
-            required
-            className="border p-2 mr-2"
-          />
-          <input
-            type="time"
-            value={form.time}
-            onChange={(e) => setForm({ ...form, time: e.target.value })}
-            required
-            className="border p-2 mr-2"
-          />
-          <select
-            value={form.status}
-            onChange={(e) => setForm({ ...form, status: e.target.value as AppointmentStatus })}
-            className="border p-2 mr-2"
-          >
-            <option value="Agendada">Agendada</option>
-            <option value="Confirmada">Confirmada</option>
-            <option value="Realizada">Realizada</option>
-            <option value="Cancelada">Cancelada</option>
-          </select>
-          <button type="submit" className="bg-blue-500 text-white p-2">
-            {editing ? 'Atualizar' : 'Adicionar'}
-          </button>
-          {editing && (
-            <button
-              type="button"
-              onClick={() => {
-                setEditing(null);
-                setForm({ patientId: '', doctorId: '', date: '', time: '', status: 'Agendada' });
-              }}
-              className="bg-gray-500 text-white p-2 ml-2"
-            >
-              Cancelar
-            </button>
-          )}
-        </form>
-      )}
+        {user.role === 'admin' && (
+          <div className="card p-8 mb-8">
+            <h2 className="text-2xl font-bold mb-6 text-purple-600">Adicionar Nova Consulta</h2>
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <select
+                value={form.patientId}
+                onChange={(e) => setForm({ ...form, patientId: e.target.value })}
+                required
+                className="input-field"
+              >
+                <option value="">Selecione Paciente</option>
+                {patients.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={form.doctorId}
+                onChange={(e) => setForm({ ...form, doctorId: e.target.value })}
+                required
+                className="input-field"
+              >
+                <option value="">Selecione Médico</option>
+                {doctors.map((d) => (
+                  <option key={d.id} value={d.id}>
+                    {d.name}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="date"
+                value={form.date}
+                onChange={(e) => setForm({ ...form, date: e.target.value })}
+                required
+                className="input-field"
+              />
+              <input
+                type="time"
+                value={form.time}
+                onChange={(e) => setForm({ ...form, time: e.target.value })}
+                required
+                className="input-field"
+              />
+              <select
+                value={form.status}
+                onChange={(e) => setForm({ ...form, status: e.target.value as AppointmentStatus })}
+                className="input-field"
+              >
+                <option value="Agendada">Agendada</option>
+                <option value="Confirmada">Confirmada</option>
+                <option value="Realizada">Realizada</option>
+                <option value="Cancelada">Cancelada</option>
+              </select>
+              <div className="flex gap-2">
+                <button type="submit" className="btn-primary flex-1">
+                  {editing ? 'Atualizar' : 'Adicionar'}
+                </button>
+                {editing && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setEditing(null);
+                      setForm({ patientId: '', doctorId: '', date: '', time: '', status: 'Agendada' });
+                    }}
+                    className="btn-secondary flex-1"
+                  >
+                    Cancelar
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+        )}
 
-      <ul>
-        {getMyAppointments().map((appointment) => (
-          <li key={appointment.id} className="flex justify-between items-center mb-2 p-4 bg-gray-100 rounded">
-            <span>
-              {getPatientName(appointment.patientId)} com {getDoctorName(appointment.doctorId)} em {appointment.date} às {appointment.time} - {appointment.status}
-            </span>
-            <div>
-              {user.role === 'doctor' && appointment.status === 'Confirmada' && (
-                <select
-                  value={appointment.status}
-                  onChange={async (e) => {
-                    const newStatus = e.target.value as AppointmentStatus;
-                    try {
-                      const res = await fetch('/api/appointments', {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ ...appointment, status: newStatus }),
-                      });
-                      if (res.ok) {
-                        fetchAppointments();
-                      }
-                    } catch (err) {
-                      console.error('Erro ao atualizar status');
-                    }
-                  }}
-                  className="border p-1 mr-2"
-                >
-                  <option value="Confirmada">Confirmada</option>
-                  <option value="Realizada">Realizada</option>
-                </select>
-              )}
-              {user.role === 'admin' && (
-                <>
-                  <button onClick={() => handleEdit(appointment)} className="bg-yellow-500 text-white p-1 mr-2">
-                    Editar
-                  </button>
-                  <button onClick={() => handleDelete(appointment.id)} className="bg-red-500 text-white p-1">
-                    Deletar
-                  </button>
-                </>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
+        <div className="card p-8">
+          <h2 className="text-2xl font-bold mb-6 text-purple-600">
+            {user.role === 'admin' ? 'Todas as Consultas' : 'Minhas Consultas'}
+          </h2>
+          <div className="space-y-4">
+            {getMyAppointments().map((appointment) => (
+              <div key={appointment.id} className="appointment-item">
+                <div className="flex justify-between items-center">
+                  <div className="flex-1">
+                    <div className="font-semibold text-lg text-gray-800">
+                      {getPatientName(appointment.patientId)}
+                    </div>
+                    <div className="text-sm text-gray-600">
+                      com {getDoctorName(appointment.doctorId)} • {appointment.date} às {appointment.time}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                      appointment.status === 'Agendada' ? 'bg-yellow-100 text-yellow-800' :
+                      appointment.status === 'Confirmada' ? 'bg-blue-100 text-blue-800' :
+                      appointment.status === 'Realizada' ? 'bg-green-100 text-green-800' :
+                      'bg-red-100 text-red-800'
+                    }`}>
+                      {appointment.status}
+                    </span>
+                    <div className="flex gap-2">
+                      {user.role === 'doctor' && appointment.status === 'Confirmada' && (
+                        <button
+                          onClick={async () => {
+                            try {
+                              const res = await fetch('/api/appointments', {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ ...appointment, status: 'Realizada' }),
+                              });
+                              if (res.ok) {
+                                fetchAppointments();
+                              }
+                            } catch (err) {
+                              console.error('Erro ao atualizar status');
+                            }
+                          }}
+                          className="btn-primary text-sm px-4 py-2"
+                        >
+                          ✅ Concluir Consulta
+                        </button>
+                      )}
+                      {user.role === 'admin' && (
+                        <>
+                          <button onClick={() => handleEdit(appointment)} className="btn-secondary text-sm px-3 py-1">
+                            ✏️ Editar
+                          </button>
+                          <button onClick={() => handleDelete(appointment.id)} className="btn-danger text-sm px-3 py-1">
+                            🗑️ Deletar
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
