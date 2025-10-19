@@ -23,6 +23,9 @@ export default function NavBar() {
               <Link href="/appointments" className="hover:underline">
                 {user.role === 'admin' ? 'Consultas' : 'Minhas Consultas'}
               </Link>
+              {user.role === 'doctor' && (
+                <Link href="/calendar" className="hover:underline">Calendário</Link>
+              )}
               <button onClick={logout} className="hover:underline">Logout</button>
             </>
           ) : (

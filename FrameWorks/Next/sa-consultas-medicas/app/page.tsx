@@ -13,7 +13,9 @@ export default function Home() {
   useEffect(() => {
     if (!loading && user) {
       fetchPatients();
-      fetchDoctors();
+      if (user.role === 'admin') {
+        fetchDoctors();
+      }
       fetchAppointments();
     }
   }, [user, loading]);
@@ -95,24 +97,24 @@ export default function Home() {
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold mb-8">Dashboard - Clínica Saúde & Bem-estar</h1>
+      <h1 className="text-3xl font-bold mb-8">Tela Inicial - Clínica Saúde & Bem-estar</h1>
       <p className="mb-4">Bem-vindo, {user.name} ({user.role === 'admin' ? 'Administrador' : 'Médico'})</p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Pacientes</h2>
-          <p className="text-2xl">{patients.length}</p>
-          {user.role === 'admin' && (
+      <div className={`grid grid-cols-1 ${user.role === 'admin' ? 'md:grid-cols-3' : 'md:grid-cols-1'} gap-8`}>
+        {user.role === 'admin' && (
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">Pacientes</h2>
+            <p className="text-2xl">{patients.length}</p>
             <a href="/patients" className="text-blue-600 hover:underline">Gerenciar Pacientes</a>
-          )}
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Médicos</h2>
-          <p className="text-2xl">{doctors.length}</p>
-          {user.role === 'admin' && (
+          </div>
+        )}
+        {user.role === 'admin' && (
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">Médicos</h2>
+            <p className="text-2xl">{doctors.length}</p>
             <a href="/doctors" className="text-blue-600 hover:underline">Gerenciar Médicos</a>
-          )}
-        </div>
+          </div>
+        )}
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">
             {user.role === 'admin' ? 'Consultas' : 'Minhas Consultas'}

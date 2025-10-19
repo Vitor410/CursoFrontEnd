@@ -109,6 +109,12 @@ export default function AppointmentsPage() {
   const getPatientName = (id: string) => patients.find(p => p.id === id)?.name || 'Desconhecido';
   const getDoctorName = (id: string) => doctors.find(d => d.id === id)?.name || 'Desconhecido';
 
+  const getMyAppointments = () => {
+    if (!user) return [];
+    if (user.role === 'admin') return appointments;
+    return appointments.filter(app => app.doctorId === user.doctorId);
+  };
+
   if (!user) {
     return (
       <div className="p-8">
@@ -195,21 +201,47 @@ export default function AppointmentsPage() {
       )}
 
       <ul>
-        {appointments.map((appointment) => (
+        {getMyAppointments().map((appointment) => (
           <li key={appointment.id} className="flex justify-between items-center mb-2 p-4 bg-gray-100 rounded">
             <span>
               {getPatientName(appointment.patientId)} com {getDoctorName(appointment.doctorId)} em {appointment.date} às {appointment.time} - {appointment.status}
             </span>
-            {user.role === 'admin' && (
-              <div>
-                <button onClick={() => handleEdit(appointment)} className="bg-yellow-500 text-white p-1 mr-2">
-                  Editar
-                </button>
-                <button onClick={() => handleDelete(appointment.id)} className="bg-red-500 text-white p-1">
-                  Deletar
-                </button>
-              </div>
-            )}
+            <div>
+              {user.role === 'doctor' && appointment.status === 'Confirmada' && (
+                <select
+                  value={appointment.status}
+                  onChange={async (e) => {
+                    const newStatus = e.target.value as AppointmentStatus;
+                    try {
+                      const res = await fetch('/api/appointments', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ...appointment, status: newStatus }),
+                      });
+                      if (res.ok) {
+                        fetchAppointments();
+                      }
+                    } catch (err) {
+                      console.error('Erro ao atualizar status');
+                    }
+                  }}
+                  className="border p-1 mr-2"
+                >
+                  <option value="Confirmada">Confirmada</option>
+                  <option value="Realizada">Realizada</option>
+                </select>
+              )}
+              {user.role === 'admin' && (
+                <>
+                  <button onClick={() => handleEdit(appointment)} className="bg-yellow-500 text-white p-1 mr-2">
+                    Editar
+                  </button>
+                  <button onClick={() => handleDelete(appointment.id)} className="bg-red-500 text-white p-1">
+                    Deletar
+                  </button>
+                </>
+              )}
+            </div>
           </li>
         ))}
       </ul>
