@@ -46,13 +46,13 @@ export default function AppointmentsPage() {
   const fetchPatients = async () => {
     const res = await fetch('/api/patients');
     const data = await res.json();
-    setPatients(data);
+    setPatients(data.map((p: any) => ({ ...p, id: p._id })));
   };
 
   const fetchDoctors = async () => {
     const res = await fetch('/api/doctors');
     const data = await res.json();
-    setDoctors(data);
+    setDoctors(data.map((d: any) => ({ ...d, id: d._id })));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

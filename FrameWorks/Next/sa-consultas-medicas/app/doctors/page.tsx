@@ -15,7 +15,7 @@ export default function DoctorsPage() {
   const fetchDoctors = async () => {
     const res = await fetch('/api/doctors');
     const data = await res.json();
-    setDoctors(data);
+    setDoctors(data.map((d: any) => ({ ...d, id: d._id })));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,6 +47,11 @@ export default function DoctorsPage() {
     await fetch(`/api/doctors?id=${id}`, { method: 'DELETE' });
     fetchDoctors();
   };
+
+  const doctorsWithId = doctors.map((doctor) => ({
+    ...doctor,
+    id: doctor._id,
+  }));
 
   return (
     <div className="p-8">
@@ -85,7 +90,7 @@ export default function DoctorsPage() {
         )}
       </form>
       <ul>
-        {doctors.map((doctor) => (
+        {doctorsWithId.map((doctor) => (
           <li key={doctor.id} className="flex justify-between items-center mb-2">
             <span>{doctor.name} - {doctor.specialty}</span>
             <div>

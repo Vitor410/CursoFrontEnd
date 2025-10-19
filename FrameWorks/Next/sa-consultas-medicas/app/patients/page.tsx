@@ -48,6 +48,11 @@ export default function PatientsPage() {
     fetchPatients();
   };
 
+  const patientsWithId = patients.map((patient) => ({
+    ...patient,
+    id: patient._id,
+  }));
+
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">Gerenciar Pacientes</h1>
@@ -85,7 +90,7 @@ export default function PatientsPage() {
         )}
       </form>
       <ul>
-        {patients.map((patient) => (
+        {patientsWithId.map((patient) => (
           <li key={patient.id} className="flex justify-between items-center mb-2">
             <span>{patient.name} - {patient.phone}</span>
             <div>
