@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '../../lib/mongodb';
 import Appointment from '../../models/Appointment';
+import Doctor from '../../models/Doctor';
+import Patient from '../../models/Patient';
 import { verifyToken } from '../../lib/auth';
 
 export async function GET(request: NextRequest) {

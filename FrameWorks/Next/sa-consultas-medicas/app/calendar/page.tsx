@@ -20,9 +20,17 @@ export default function CalendarPage() {
   }, [user]);
 
   const fetchAppointments = async () => {
-    const res = await fetch('/api/appointments');
-    const data = await res.json();
-    setAppointments(data);
+    try {
+      const res = await fetch('/api/appointments');
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setAppointments(data);
+      } else {
+        setAppointments([]);
+      }
+    } catch (error) {
+      setAppointments([]);
+    }
   };
 
   const fetchPatients = async () => {
