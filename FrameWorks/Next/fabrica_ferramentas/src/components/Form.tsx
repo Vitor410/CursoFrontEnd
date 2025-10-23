@@ -66,10 +66,10 @@ export default function Form({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`space-y-4 ${className}`}>
+    <form onSubmit={handleSubmit} className={`space-y-6 ${className}`}>
       {fields.map(field => (
-        <div key={field.name}>
-          <label htmlFor={field.name} className="block text-sm font-medium text-gray-700 mb-1">
+        <div key={field.name} className="space-y-2">
+          <label htmlFor={field.name} className="block text-sm font-semibold text-slate-700">
             {field.label}
             {field.required && <span className="text-red-500 ml-1">*</span>}
           </label>
@@ -81,28 +81,31 @@ export default function Form({
               value={formData[field.name] || ''}
               onChange={(e) => handleChange(field.name, e.target.value)}
               placeholder={field.placeholder}
-              className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                errors[field.name] ? 'border-red-500' : 'border-gray-300'
-              }`}
+              className={`form-input resize-none ${errors[field.name] ? 'error' : ''}`}
               rows={4}
             />
           ) : field.type === 'select' ? (
-            <select
-              id={field.name}
-              name={field.name}
-              value={formData[field.name] || ''}
-              onChange={(e) => handleChange(field.name, e.target.value)}
-              className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                errors[field.name] ? 'border-red-500' : 'border-gray-300'
-              }`}
-            >
-              <option value="">Selecione...</option>
-              {field.options?.map(option => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <select
+                id={field.name}
+                name={field.name}
+                value={formData[field.name] || ''}
+                onChange={(e) => handleChange(field.name, e.target.value)}
+                className={`form-input appearance-none pr-10 ${errors[field.name] ? 'error' : ''}`}
+              >
+                <option value="">Selecione uma opção...</option>
+                {field.options?.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
           ) : (
             <input
               id={field.name}
@@ -113,30 +116,36 @@ export default function Form({
               placeholder={field.placeholder}
               min={field.min}
               step={field.step}
-              className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                errors[field.name] ? 'border-red-500' : 'border-gray-300'
-              }`}
+              className={`form-input ${errors[field.name] ? 'error' : ''}`}
             />
           )}
 
           {errors[field.name] && (
-            <p className="mt-1 text-sm text-red-600">{errors[field.name]}</p>
+            <div className="flex items-center space-x-1">
+              <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-sm text-red-600 font-medium">{errors[field.name]}</p>
+            </div>
           )}
         </div>
       ))}
 
-      <div className="flex space-x-4 pt-4">
+      <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-slate-200">
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="btn-primary focus-ring flex items-center justify-center space-x-2 order-1 sm:order-2"
         >
-          {submitLabel}
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          <span>{submitLabel}</span>
         </button>
         {onCancel && (
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+            className="px-6 py-3 bg-slate-100 text-slate-700 rounded-lg hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 font-medium transition-colors duration-150 order-2 sm:order-1"
           >
             {cancelLabel}
           </button>
