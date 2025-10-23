@@ -93,8 +93,6 @@ O Usuário (Recepcionista) é o responsável por agendar as consultas no sistema
 2. ### Diagrama de Casos de Uso
 Mostra as interações dos usuários (Recepcionista e Médico) com o sistema.
 
-```mermaid
-
 graph TD
     subgraph Sistema de Agendamento de Consultas
         uc1("Fazer Login")
@@ -123,7 +121,6 @@ graph TD
     uc2 --|> uc1 : include
     uc3 --|> uc1 : include
     uc6 --|> uc1 : include
-```
 
 ###  Explicação:
 Recepcionista: Pode cadastrar médicos e pacientes, criar e gerenciar consultas, e visualizar a agenda completa.
@@ -135,7 +132,6 @@ Todos os casos de uso principais dependem do login (relação include).
 3. Diagrama de Fluxo (Agendamento de Consulta)
 Mostra o processo completo de criação de uma nova consulta no sistema.
 
-```mermaid
 
 graph TD
     A[Início] --> B{Usuário faz login?}
@@ -150,8 +146,6 @@ graph TD
     F -- Horário ocupado --> K[Exibe erro: "Horário indisponível"]
     J --> L[Fim]
     K --> E
-
-```
 
 ### Explicação:
 O usuário (recepcionista) precisa estar autenticado.
